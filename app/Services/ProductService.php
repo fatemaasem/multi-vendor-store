@@ -14,6 +14,7 @@ class ProductService{
     
    
     public function checkProduct($product){
+        
        $tags=implode(',',$product->tags->pluck('name')->toArray()) ;
       
         $product=ProductDTO::toArray($product,$tags);
@@ -26,11 +27,8 @@ class ProductService{
     }
     
     public function show($id){
-        dd(Product::whereIn('category_id', function($query) {
-            $query->select('id')
-                  ->from('categories');
-        })->get());
-        $product=$this->checkProduct(ProductRepository::find($id));
+     
+        $product=$this->checkProduct(Product::withTrashed()->find($id));
        
         return $product;
     }
@@ -45,6 +43,8 @@ class ProductService{
     
       $filterProduct=array_filter($dtoData, function($key)  {
         return $key != 'tags';
+
+        
     },ARRAY_FILTER_USE_KEY);
   
       $product=ProductRepository::create($dtoData);
@@ -84,12 +84,13 @@ class ProductService{
     }
     public function update(ProductRequest $request, $id){
        $productDto=ProductDTO::create($request);
-      
-       $oldProduct=(ProductRepository::find($id));
-        
+    
+       $oldProduct=Product::find($id);
+     
        $pathImage=$oldProduct['image'];
        if($productDto['image']){
             //delete old image image
+            if($oldProduct)
             Storage::disk('public')->delete($oldProduct['image']);
             //store new image
             $pathImage=$this->storeImage($productDto['image']);

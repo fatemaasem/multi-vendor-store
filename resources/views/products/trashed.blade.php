@@ -63,7 +63,8 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Product Name</th>
+                        <th>Image</th>
+                          
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -71,8 +72,10 @@
                     <tbody>
                         @forelse($products as $product)
                             <tr>
+                            <td><a href="{{ route('products.show', $product->id) }}"><img src="{{ asset('storage/' . $product->image) }}" style="width: 100px; height: auto;" /></a></td>
+
                                 <!-- Product Name -->
-                                <td><a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a></td>
+                               
                                 
                                 <!-- Product Status -->
                                 <td>{{ $product->status }}</td>

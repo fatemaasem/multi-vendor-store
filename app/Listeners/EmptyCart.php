@@ -22,6 +22,7 @@ class EmptyCart
      */
     public function handle(OrderCreated $event): void
     {
-       //CartFacade::deleteAll();
+      
+       CartFacade::deleteAll();
     }
 }

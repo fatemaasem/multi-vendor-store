@@ -4,8 +4,71 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc98763bc99393d883e1501502d62d52",
+    "content-hash": "15074db85e2b48206f56a339873ad390",
     "packages": [
+        {
+            "name": "amrshawky/laravel-currency",
+            "version": "3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amrshawky/laravel-currency.git",
+                "reference": "42bad96fad2291cc868e66fed5dd65282aede714"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amrshawky/laravel-currency/zipball/42bad96fad2291cc868e66fed5dd65282aede714",
+                "reference": "42bad96fad2291cc868e66fed5dd65282aede714",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": ">=6.0",
+                "illuminate/support": ">=6.0",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "AmrShawky\\Currency\\CurrencyServiceProvider"
+                    ],
+                    "aliases": {
+                        "Currency": "AmrShawky\\Currency\\Facade\\Currency"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AmrShawky\\Currency\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Amr Shawky",
+                    "homepage": "https://amrshawky.com"
+                }
+            ],
+            "description": "A Laravel package for current and historical currency exchange rates & crypto exchange rates based on the free API provided by exchangerate.host",
+            "keywords": [
+                "currency",
+                "currency converter",
+                "exchange rates",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/amrshawky/laravel-currency/issues",
+                "source": "https://github.com/amrshawky/laravel-currency/tree/3.2.0"
+            },
+            "abandoned": true,
+            "time": "2021-05-10T16:41:33+00:00"
+        },
         {
             "name": "bacon/bacon-qr-code",
             "version": "v3.0.1",
@@ -613,6 +676,66 @@
                 }
             ],
             "time": "2023-10-06T06:47:41+00:00"
+        },
+        {
+            "name": "everapi/freecurrencyapi-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/everapihq/freecurrencyapi-php.git",
+                "reference": "61514ca4124b6c5e4de823a546fe08a3dd8c3c9e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/everapihq/freecurrencyapi-php/zipball/61514ca4124b6c5e4de823a546fe08a3dd8c3c9e",
+                "reference": "61514ca4124b6c5e4de823a546fe08a3dd8c3c9e",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.4",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "pestphp/pest": "^1.20",
+                "spatie/ray": "^1.28"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FreeCurrencyApi\\FreeCurrencyApi\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dominik Kukacka",
+                    "email": "office@everapi.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP wrapper for the freecurrencyapi.com API",
+            "homepage": "https://github.com/everapihq/freecurrencyapi-php",
+            "keywords": [
+                "api",
+                "currency api",
+                "exchange rates data",
+                "foreign exchange rates API",
+                "free currency api ",
+                "free currency conversion API",
+                "freecurrencyapi-php",
+                "freecurrencyapi.com",
+                "rates API"
+            ],
+            "support": {
+                "issues": "https://github.com/everapihq/freecurrencyapi-php/issues",
+                "source": "https://github.com/everapihq/freecurrencyapi-php/tree/master"
+            },
+            "time": "2023-05-26T09:26:01+00:00"
         },
         {
             "name": "fruitcake/php-cors",
@@ -9261,8 +9384,10 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "everapi/freecurrencyapi-php": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

@@ -1,4 +1,4 @@
-<x-layouts.layout-component title="Home">
+<x-layouts.layout-component title="Home" >
     <div class="container mt-5">
         <div class="row">
             <!-- Billing and Shipping Details -->
@@ -71,6 +71,8 @@
                             </li>
                         </ul>
                     </div>
+
+                    
                 </div>
             </div>
         </div>

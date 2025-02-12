@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories\Models;
 
+use App\Facades\Repository\CartFacade;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Repositories\Contracts\CartContract;
@@ -70,11 +71,11 @@ class CartRepository implements CartContract{
         return $cart->delete();
     }
     public function deleteAll()
-    {
-       
-       
-        return Cart::query()->delete();;
-    }
+        {
+          
+            // Delete all carts where the cookie_id matches the given $cookie_id
+            return Cart::query()->delete();
+        }
     public function total (){
       
         $totalPrice = Cart::join('products', 'products.id', '=', 'carts.product_id')
@@ -83,6 +84,10 @@ class CartRepository implements CartContract{
         
         
         return ($totalPrice)?$totalPrice:0;
+    }
+
+    public static function carts_for_each_store(){
+        return CartFacade::index()->groupBy('product.store_id');
     }
     
 }

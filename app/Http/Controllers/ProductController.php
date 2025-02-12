@@ -6,6 +6,7 @@ use App\DTO\ProductDTO;
 use App\Facades\ProductFacade;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\SearchRequest;
+use App\Models\Category;
 use App\Models\Product;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ProductRepository;
@@ -22,15 +23,18 @@ class ProductController extends Controller
     {
         $this->productRepository=$productRepository;
     }
-    public function index(SearchRequest $request){
-  
-        $products=$this->productRepository->search($request);
-       $notifications=Auth::guard('admin')->user()->notifications;
+    public function index(SearchRequest $request,$category_id=null){
      
-        return view('products.index',compact('products','notifications'));
+        $products=$this->productRepository->search($request,$category_id);
+       $notifications=Auth::user()->notifications??"";
+       $store_name=Auth::user()->store->name;
+      
+     
+        return view('products.index',compact('products','notifications','store_name'));
     }
     
     public function show($id){
+       
        $product=ProductFacade::show($id);
         if(!$product){
             return redirect()->route('products.index');
@@ -39,6 +43,7 @@ class ProductController extends Controller
     }
 
     public function create(){
+      
         return view('products.create',['categories'=>CategoryRepository::all(['id','name'])]);
     }
     public function store(ProductRequest $request){
@@ -47,6 +52,7 @@ class ProductController extends Controller
     }
     public function edit($id){
         $product=ProductFacade::edit($id);
+      
         if(!$product)
             return redirect()->route('products.index');
         return view('products.edit',['product'=>$product,'categories'=>CategoryRepository::all(['id','name'])]);
@@ -60,6 +66,7 @@ class ProductController extends Controller
     return  redirect()->route('products.index');
    }
    public function trashed(SearchRequest $request){
+   
    $products=ProductFacade::trashed($request);
    return view('products.trashed',compact('products'));
    }
@@ -78,6 +85,7 @@ class ProductController extends Controller
         ProductFacade::forceDelete($id);
         return redirect()->route('products.trashed');
     }
+   
 
    }
    

@@ -15,12 +15,9 @@ class ProductStoreScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        if(Auth::check()&&Auth::user()->user_rule=='user'){
+        
             $builder->where('status','=','active');
-        }
-        else if(Auth::check()&&Auth::user()->store_id) {
-            $builder->where('store_id', '=', Auth::user()->store_id);
-        }
+        
         
         
     }

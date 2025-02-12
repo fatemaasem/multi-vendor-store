@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Models\Scopes\ProductStoreScope;
+
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 class Product extends Model
 {
@@ -16,6 +18,15 @@ class Product extends Model
     protected static function booted()
     {
         static::addGlobalScope(new ProductStoreScope);
+    }
+    public function ScopeMarchent(Builder $builder){
+      // Check if the user is authenticated and has a store relationship
+    if (Auth::check() && Auth::user()->store) {
+        $storeId = Auth::user()->store->id;
+
+        // Add the condition to the query builder
+        $builder->where('store_id', $storeId);
+    }
     }
      // Automatically generate slug when creating a product
      protected static function boot()
@@ -53,12 +64,14 @@ class Product extends Model
     }
     // Create an accessor for image_url
     public function getImageUrlAttribute(){
+       
          // Check if the image path starts with "http://" or "https://"
         if(isset($this->image)&& filter_var($this->image, FILTER_VALIDATE_URL) && (strpos($this->image, 'http://') === 0 || strpos($this->image, 'https://') === 0)){
             
                 return $this->image;
         }
         else if(isset($this->image)){
+           
             return "asset('storage/'.$this->image)";
         }
         else{

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Responses\LoginResponse;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
@@ -10,13 +11,13 @@ use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
-use Laravel\Fortify\Contracts\ConfirmPasswordViewResponse;
-use Laravel\Fortify\Http\Responses\SimpleViewResponse;
+
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
@@ -74,13 +75,17 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::authenticateUsing(function (Request $request) {
          
             if(config('fortify.guard')=='web'){
+                
                $login=config('fortify.username');
                
                 $user = User::where('email', $request->$login)->orWhere('phone', $request->$login)->first();
+              
                 if ($user &&
                     Hash::check($request->password, $user->password)) {
+                      
                     return $user;
                 }
+                
             }
             else if(config('fortify.guard')=='admin'){
                 $login=config('fortify.username');
@@ -92,5 +97,8 @@ class FortifyServiceProvider extends ServiceProvider
                  }
              }
         });
+        // Define custom home route after login
+        
+        
     }
 }

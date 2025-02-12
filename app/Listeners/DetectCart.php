@@ -21,7 +21,7 @@ class DetectCart
      */
     public function handle(OrderCreated $event): void
     {
-        
+       
        foreach($event->order->products as $product){
        
         $product->decrement('quantity',$product->pivot->quantity);

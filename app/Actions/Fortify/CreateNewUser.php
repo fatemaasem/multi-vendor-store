@@ -1,7 +1,7 @@
-<?php
-
-namespace App\Actions\Fortify;
-
+<?php namespace App\Actions\Fortify;
+use Illuminate\Support\Str; // Import the Str helper
+use App\Models\Profile;
+use App\Models\Store;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -29,12 +29,38 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
+            'store' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:500'],
+            'logo' => ['nullable', 'image', 'max:2048'], // Optional and max size is 2MB
         ])->validate();
-
-        return User::create([
+            $logoPath="";
+        if (isset($input['logo'])  && $input['logo'] instanceof \Illuminate\Http\UploadedFile) {
+            $logoPath = $input['logo']->store('stores', 'public'); // Store logo in the public disk
+            
+        }
+        $store=Store::create([
+            'name'=>$input['store'],
+            'description'=>$input['description'],
+            'slug'=>Str::slug($input['store']),
+            'logo_image'=>$logoPath??null
+        ]);
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
+            'store_id'=>$store->id
         ]);
+       
+      
+
+        Profile::create([
+            'f_name' => $user->name,
+            'user_id' => $user->id,
+            'store_name' => $input['store'],
+            'description' => $input['description'],
+            'logo' => $logoPath ?? null, // Save logo path if provided
+        ]);
+
+        return $user;
     }
 }

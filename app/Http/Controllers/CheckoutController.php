@@ -38,6 +38,7 @@ class CheckoutController extends Controller
         DB::beginTransaction();
         try {
             foreach ($carts as $store_id => $cart) {
+                
                 // Create an order for each store
                 $order = Order::create([
                     'user_id' => Auth::check() ? Auth::user()->id : null,

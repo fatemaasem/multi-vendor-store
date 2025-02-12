@@ -23,10 +23,12 @@ class SendNotifacation
      */
     public function handle(OrderCreated $event): void
     {
+       
         $users=User::where('store_id',$event->order->store_id)->get() ; 
-      
+       
+       
         foreach($users as $user){
-         
+        
           $user->notify(new NotificationsOrderCreated($event->order));
            
         }

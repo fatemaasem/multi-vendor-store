@@ -21,6 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'store_id'
     ];
 
     /**
@@ -47,5 +48,8 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     public function profile(){
         return $this->hasOne(Profile::class,'user_id','id')->withDefault();
+    }
+    public function store(){
+        return $this->belongsTo(Store::class);
     }
 }

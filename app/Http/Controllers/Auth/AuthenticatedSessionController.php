@@ -16,6 +16,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
+        
+        if (Auth::check()) {
+           
+            return redirect()->route('products.index');
+        }
         return view('auth.login');
     }
 
@@ -23,12 +28,14 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
+
     {
+        
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('home', absolute: false));
+        return redirect()->intended(route('products.index', absolute: false));
     }
 
     /**

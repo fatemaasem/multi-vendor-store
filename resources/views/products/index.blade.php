@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title') Product Dashboard @endsection
+@section('title') {{ $store_name }} @endsection
 
 @section('content')
 
@@ -54,7 +54,7 @@
 
             <!-- Add and Trashed product buttons -->
             <div class="mt-3">
-                <a href="{{ route('products.create') }}" class="btn btn-success">Add Product</a>
+                <a href="{{ route('product.create') }}" class="btn btn-success">Add Product</a>
                 <a href="{{ route('products.trashed') }}" class="btn btn-secondary">Trashed Products</a>
             </div>
             </div>
@@ -66,7 +66,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Product Name</th>
+                            <th>Image</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -74,7 +74,8 @@
                     <tbody>
                         @forelse($products as $product)
                             <tr>
-                                <td><a href="{{route('products.show', $product->id)}}">{{ $product->name }}</a></td>
+                            <td><img src="{{ asset('storage/' . $product->image) }}" style="width: 100px; height: auto;" /></td>
+
                                 <td>{{ $product->status }}</td>
                                 <td>
                                     <!-- Edit link -->
@@ -88,7 +89,7 @@
                                     </form>
 
                                     <!-- Show link -->
-                                    <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-primary">Show</a>
+                                    <!-- <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-primary">Show</a> -->
                                 </td>
                             </tr>
                         @empty

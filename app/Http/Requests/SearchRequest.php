@@ -28,9 +28,9 @@ class SearchRequest extends FormRequest
             'name'=>'nullable|string|max:255', // 'name' is not required, should be a string if present
            'status' => ['nullable',
            function($attribute, $value, $fail){
-            $validStatus=['active','archived'];
-                if($this->page=='product')
-                    $validStatus=['active','archived','draft'];
+            $validStatus=['active','archived','draft'];
+                // if($this->page=='product')
+                //     $validStatus=['active','archived','draft'];
              // Check if the status is in the valid statuses
              if (!in_array($value, $validStatus)) {
                 $fail("The {$attribute} must be one of the following: " . implode(', ', $validStatus));

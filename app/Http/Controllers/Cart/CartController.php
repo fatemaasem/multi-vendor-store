@@ -21,7 +21,7 @@ class CartController extends Controller
     }
     //for retrive all corts for this user
     public function index(){
-    
+   
         return view('user.cart.all',['cartOpject'=>$this->cartContract]);
     }
 
@@ -41,20 +41,28 @@ class CartController extends Controller
             return redirect()->route('carts.index');
         }
         Session::flash('success','Carts save successfully');
-        return redirect()->route('carts.index');
+        return redirect()->route('cart.index');
     }
 
     public function store(Request $request){
-  
-        $request->validate([
-            
-            'quantity'=>'int|min:1',
-        ]);
-       
-       
+       // Validate the product_id
+            $validatedData = $request->validate([
+                'product' => 'required|integer|exists:products,id',
+            ]);
+
+
+// Retrieve the product based on the validated product_id
+$product = \App\Models\Product::find($validatedData['product']);
+
+// Validate the quantity with a dynamic max value
+$request->validate([
+    'quantity' => 'required|integer|min:1|max:' . $product->quantity,
+]);
+
        $this->cartContract->insert($request->product,$request->quantity);
         Session::flash('success','cart added successfally');
-        return redirect()->route('carts.index');
+       ;
+        return redirect()->route('cart.index');
           
     }
 
@@ -70,13 +78,13 @@ class CartController extends Controller
             else{
                 Session::flash('success','cart  delteted successfully');
             }
-            return redirect()->route('carts.index');
+            return redirect()->route('cart.index');
     }
 
    public function deleteAll(){
         
         $this->cartContract->deleteAll();
-        return redirect()->route('carts.index');
+        return redirect()->route('cart.index');
    } 
    public function total(){
        
